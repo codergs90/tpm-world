@@ -1,0 +1,19 @@
+#
+# taken from https://github.com/stefanberger/libtpms/wiki/Dockerfiles + customized for local needs
+#
+FROM ubuntu:20.04
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get -y update && \
+    apt-get -y install build-essential fakeroot devscripts equivs
+
+WORKDIR /build/libtpms
+RUN git clone https://github.com/stefanberger/libtpms.git
+
+WORKDIR /build/libtpms/libtpms
+RUN mk-build-deps \
+    --install \
+    --build-dep \
+    '--tool=apt-get --no-install-recommends -y' \
+    debian/control
+RUN dpkg-buildpackage -b -us -uc -j4
+ENTRYPOINT tar --create --to-stdout /build/libtpms/*.deb
