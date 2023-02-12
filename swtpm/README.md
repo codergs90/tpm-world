@@ -31,7 +31,7 @@ tcp        0      0 127.0.0.1:9091          0.0.0.0:*               LISTEN      
 
 ```
 # run simulator (already started in container)
-$ /usr/bin/swtpm socket --server type=tcp,port=9090 --tpm2 --tpmstate dir=/opt -ctrl type=tcp,port=9091 -d
+$ /usr/bin/swtpm socket --server type=tcp,port=9090 --tpm2 --tpmstate dir=/opt --ctrl type=tcp,port=9091 -d
 
 # send control commands
 $ swtpm_ioctl --tcp localhost:9091 --info 2 | jq .
